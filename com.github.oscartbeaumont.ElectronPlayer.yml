@@ -1,0 +1,68 @@
+app-id: com.github.oscartbeaumont.ElectronPlayer
+base: org.electronjs.Electron2.BaseApp
+base-version: '22.08'
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --socket=x11
+  - --socket=fallback-x11
+  - --share=network
+  - --socket=pulseaudio
+  - --talk-name=org.freedesktop.Notifications
+command: run.sh
+modules:
+  - name: electronplayer
+    buildsystem: simple
+    build-commands:
+      # Extract AppImage
+      - chmod +x ./electronplayer.AppImage
+      - ./electronplayer.AppImage --appimage-extract
+      - mv ./squashfs-root/* /app/bin
+
+      # Modify & install desktop file
+      - desktop-file-edit --set-key=Exec --set-value="run.sh" /app/bin/electronplayer.desktop
+      - desktop-file-edit --set-key=Icon --set-value="com.github.oscartbeaumont.ElectronPlayer" /app/bin/electronplayer.desktop
+      - desktop-file-edit --set-key=Name --set-value="ElectronPlayer" /app/bin/electronplayer.desktop
+      - install -Dm644 /app/bin/electronplayer.desktop /app/share/applications/com.github.oscartbeaumont.ElectronPlayer.desktop
+
+      # Install icons
+      - install -Dm644 icon_64_x_64.png /app/share/icons/hicolor/64x64/apps/com.github.oscartbeaumont.ElectronPlayer.png
+      - install -Dm644 icon_128_x_128.png /app/share/icons/hicolor/128x128/apps/com.github.oscartbeaumont.ElectronPlayer.png
+      - install -Dm644 icon_256_x_256.png /app/share/icons/hicolor/256x256/apps/com.github.oscartbeaumont.ElectronPlayer.png
+      - install -Dm644 icon_512_x_512.png /app/share/icons/hicolor/512x512/apps/com.github.oscartbeaumont.ElectronPlayer.png
+
+      # Install metainfo
+      - install -Dm644 com.github.oscartbeaumont.ElectronPlayer.metainfo.xml /app/share/metainfo/com.github.oscartbeaumont.ElectronPlayer.metainfo.xml
+      
+      # Install binaries & wrapper
+      - install -d -m 755 /app/bin
+      - install -m 755 run.sh /app/bin/run.sh
+    sources:
+      # ElectronPlayer AppImage
+      - type: file
+        url: https://github.com/oscartbeaumont/ElectronPlayer/releases/download/v2.0.8-rc4/electronplayer-2.0.8.AppImage
+        sha256: c00b2648575b44f9d89c3c964126edca3f862c92cdee26e4b1413b71e81f9212
+        dest-filename: electronplayer.AppImage
+
+      # Zypak wrapper for sandboxing
+      - type: script
+        dest-filename: run.sh
+        commands:
+          - zypak-wrapper.sh /app/bin/electronplayer "$@"
+
+      # Icons
+      - type: file
+        path: icons/icon_64_x_64.png
+      - type: file
+        path: icons/icon_128_x_128.png
+      - type: file
+        path: icons/icon_256_x_256.png
+      - type: file
+        path: icons/icon_512_x_512.png
+
+      # Metainfo
+      - type: file
+        path: com.github.oscartbeaumont.ElectronPlayer.metainfo.xml

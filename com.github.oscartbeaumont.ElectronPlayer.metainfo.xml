@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2021 Oscar Beaumont -->
+<component type="desktop-application">
+<id>com.github.oscartbeaumont.ElectronPlayer</id>
+<launchable type="desktop-id">com.github.oscartbeaumont.ElectronPlayer.desktop</launchable>
+<provides>
+  <id>com.github.oscartbeaumont.ElectronPlayer</id>
+</provides>
+<content_rating type="oars-1.1">
+  <content_attribute id="social-chat">moderate</content_attribute>
+  <content_attribute id="social-audio">moderate</content_attribute>
+</content_rating>
+<metadata_license>CC0-1.0</metadata_license>
+<project_license>MIT</project_license>
+<name>ElectronPlayer</name>
+<summary>An Electron Based Web Video Services Player. Supporting Netflix, Youtube, Twitch, Floatplane, Hulu And More</summary>
+<description>
+  <p>
+     An Electron Based Web Video Services Player. Supporting Netflix, Youtube, Twitch, Floatplane, Hulu And More
+  </p>
+</description>
+<url type="homepage">https://github.com/oscartbeaumont/ElectronPlayer</url>
+<url type="bugtracker">https://github.com/oscartbeaumont/ElectronPlayer/issues</url>
+<url type="help">https://github.com/oscartbeaumont/ElectronPlayer/issues</url>
+</component>
