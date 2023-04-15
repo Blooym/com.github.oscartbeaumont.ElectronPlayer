@@ -6,6 +6,7 @@ runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
 build-options:
   no-debuginfo: true
+separate-locales: false
 finish-args:
   - --socket=x11
   - --socket=fallback-x11
@@ -26,6 +27,8 @@ modules:
       - desktop-file-edit --set-key=Exec --set-value="run.sh" /app/bin/electronplayer.desktop
       - desktop-file-edit --set-key=Icon --set-value="com.github.oscartbeaumont.ElectronPlayer" /app/bin/electronplayer.desktop
       - desktop-file-edit --set-key=Name --set-value="ElectronPlayer" /app/bin/electronplayer.desktop
+      - desktop-file-edit --set-key=StartupWMClass --set-value="com.github.oscartbeaumont.ElectronPlayer" /app/bin/electronplayer.desktop
+      - desktop-file-edit --remove-key=X-AppImage-Version /app/bin/electronplayer.desktop
       - install -Dm644 /app/bin/electronplayer.desktop /app/share/applications/com.github.oscartbeaumont.ElectronPlayer.desktop
 
       # Install icons
